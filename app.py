@@ -8,5 +8,10 @@ st.markdown("# Bienvenida mi amor ❤️")
 st.write("He creado este pequeño rincón en internet solo para ti. Aquí iré agregando cositas para recordarte lo mucho que te amo y apoyarte cuando lo necesites.")
 st.write("👈 Abre el menú lateral para ver lo que he preparado para ti.")
 
-# Imagen animada
-st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMThjOTg5NDUyNjM4ZmQ5ZTEyZGRiMmUwYmUwYzU2ZjUzYzg1YjM4YiZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/Vi0Ws3ig4M3Di/giphy.gif", caption="¡Te amo infinito!")
+# Creamos 3 columnas (izquierda, centro, derecha)
+# Los números [1, 2, 1] hacen que la columna del centro sea un poco más ancha
+col1, col2, col3 = st.columns([1, 2, 1])
+
+# Le decimos a Streamlit que ponga la imagen SOLO dentro de la columna del centro (col2)
+with col2:
+    st.image("foto_portada.jpg", caption="¡Te amo infinito!")
