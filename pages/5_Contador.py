@@ -9,7 +9,7 @@ st.divider()
 
 # --- AQUÍ PONES LA FECHA DE SU ANIVERSARIO ---
 # Formato: datetime(Año, Mes, Día)
-fecha_inicio = datetime(2022, 3, 15) 
+fecha_inicio = datetime(2026, 2, 22) 
 
 # Obtenemos la fecha y hora de este exacto momento
 ahora = datetime.now()
