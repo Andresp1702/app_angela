@@ -14,4 +14,4 @@ col1, col2, col3 = st.columns([1, 2, 1])
 
 # Le decimos a Streamlit que ponga la imagen SOLO dentro de la columna del centro (col2)
 with col2:
-    st.image("foto_portada.jpg", caption="¡Te amo infinito!")
+    st.image("foto_portada.jpg", caption="¡Te amo!")
