@@ -62,6 +62,7 @@ if 'mensajes' not in st.session_state:
 # 3. Encabezado de la aplicación
 st.title("Hola, Ángela María ❤️")
 st.write("Esta pequeña app está diseñada para apoyarte en tus momentos malos, resaltar tu alegría, y demostrarte un poco de tooodo el amor que tengo por ti.")
+st.write("De tu novio, Andrés Felipe")
 
 st.divider() # Una línea decorativa
 
