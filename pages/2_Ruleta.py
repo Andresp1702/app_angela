@@ -1,13 +1,15 @@
 import streamlit as st
 import random
-import time # Importamos esto para poder hacer las pausas de la animación
 
+# Configuración básica de la página
 st.set_page_config(page_title="Ruleta de Citas", page_icon="🎡")
 
 st.markdown("# Nuestra Ruleta de Citas 🎡")
-st.write("¿No sabemos qué hacer hoy? ¡Deja que el destino decida por nosotros!")
+st.write("Esto te ayudará a decidir sobre nuestros planes")
 st.divider()
 
+# Esta es la lista de planes. ¡Puedes agregar todos los que quieras!
+# Solo asegúrate de ponerlos entre comillas y separados por comas.
 planes = [
     "Noche de películas y tu comida favorita en casa 🍕🎬",
     "Caminar por un parque nuevo y tomar un helado 🍦🌳",
@@ -18,7 +20,18 @@ planes = [
     "Maratón de nuestra serie favorita con cobijas 🛋️🍿"
 ]
 
-if st.button("🌟 ¡Girar la Ruleta! 🌟", use_container_width=True):
+# Creamos un botón grande
+if st.button("Presiona aquí para elegir", use_container_width=True):
+    # random.choice elige un elemento al azar de la lista 'planes'
+    plan_elegido = random.choice(planes)
+    
+    # Lanzamos una animación de globos en la pantalla
+    st.balloons()
+    
+    # Mostramos el resultado con un cuadro verde bonito
+    st.success(f"### El plan elegido essss: \n ## {plan_elegido}")
+    
+    st.write("Tenemos plan vida. ❤️")
     
     # 1. Creamos un "espacio vacío" en la pantalla que podemos actualizar
     espacio_ruleta = st.empty()
@@ -37,7 +50,7 @@ if st.button("🌟 ¡Girar la Ruleta! 🌟", use_container_width=True):
     espacio_ruleta.markdown(f"<h2 style='text-align: center; color: #ff4b4b;'>✨ {plan_ganador} ✨</h2>", unsafe_allow_html=True)
     
     st.balloons()
-    st.success("¡Tenemos un plan! Prepárate, mi amor. ❤️")
+    st.success("Tenemos plan vida. ❤️")
 
 # Creamos un botón grande
 if st.button("🌟 ¡Girar la Ruleta! 🌟", use_container_width=True):
