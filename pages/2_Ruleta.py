@@ -1,15 +1,13 @@
 import streamlit as st
 import random
+import time # Importamos esto para poder hacer las pausas de la animación
 
-# Configuración básica de la página
 st.set_page_config(page_title="Ruleta de Citas", page_icon="🎡")
 
 st.markdown("# Nuestra Ruleta de Citas 🎡")
-st.write("¿No sabes que plan elegir? Esto te ayuda a decidir amor")
+st.write("¿No sabemos qué hacer hoy? ¡Deja que el destino decida por nosotros!")
 st.divider()
 
-# Esta es la lista de planes. ¡Puedes agregar todos los que quieras!
-# Solo asegúrate de ponerlos entre comillas y separados por comas.
 planes = [
     "Noche de películas y tu comida favorita en casa 🍕🎬",
     "Caminar por un parque nuevo y tomar un helado 🍦🌳",
@@ -19,6 +17,27 @@ planes = [
     "Día de spa en casa: mascarillas y masajes 💆‍♀️💆‍♂️",
     "Maratón de nuestra serie favorita con cobijas 🛋️🍿"
 ]
+
+if st.button("🌟 ¡Girar la Ruleta! 🌟", use_container_width=True):
+    
+    # 1. Creamos un "espacio vacío" en la pantalla que podemos actualizar
+    espacio_ruleta = st.empty()
+    
+    # 2. Hacemos el efecto de "girar" cambiando el texto rápidamente 20 veces
+    for i in range(20):
+        plan_temporal = random.choice(planes)
+        # Mostramos el texto en gris simulando que está pasando rápido
+        espacio_ruleta.markdown(f"<h3 style='text-align: center; color: gray;'>🔄 {plan_temporal} 🔄</h3>", unsafe_allow_html=True)
+        time.sleep(0.1) # Una pausa diminuta entre cada cambio
+        
+    # 3. Elegimos el ganador definitivo
+    plan_ganador = random.choice(planes)
+    
+    # 4. Mostramos el ganador en grande, centrado y con color rojo
+    espacio_ruleta.markdown(f"<h2 style='text-align: center; color: #ff4b4b;'>✨ {plan_ganador} ✨</h2>", unsafe_allow_html=True)
+    
+    st.balloons()
+    st.success("¡Tenemos un plan! Prepárate, mi amor. ❤️")
 
 # Creamos un botón grande
 if st.button("🌟 ¡Girar la Ruleta! 🌟", use_container_width=True):
