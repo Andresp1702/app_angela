@@ -1,4 +1,7 @@
 import streamlit as st
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 st.set_page_config(page_title="Buzón de Antojos", page_icon="💌")
 
@@ -6,11 +9,37 @@ st.markdown("# Buzón de Antojos 💌")
 st.write("¿Tuviste un día pesado? ¿Tienes antojo de algo rico? ¡Haz tu pedido aquí y tu novio exclusivo se encargará del resto!")
 st.divider()
 
-# Creamos el formulario. Todo lo que esté indentado (hacia la derecha) pertenece a él
+# --- FUNCIÓN SECRETA PARA ENVIAR EL CORREO ---
+def enviar_correo(categoria, detalles):
+    try:
+        # Sacamos las llaves de la bóveda
+        remitente = st.secrets["correos"]["email_origen"]
+        password = st.secrets["correos"]["contrasena"]
+        destinatario = st.secrets["correos"]["email_destino"]
+
+        # Armamos el correo
+        msg = MIMEMultipart()
+        msg['From'] = remitente
+        msg['To'] = destinatario
+        msg['Subject'] = "💌 ¡Nuevo pedido de Ángela María!"
+        
+        cuerpo = f"¡Hola!\n\nTienes un nuevo pedido especial de Ángela desde la app.\n\nAntojo: {categoria}\nDetalles adicionales: {detalles}\n\n¡Es hora de consentirla!"
+        msg.attach(MIMEText(cuerpo, 'plain'))
+
+        # Nos conectamos a los servidores de Google para enviarlo
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(remitente, password)
+        server.send_message(msg)
+        server.quit()
+        return True
+    except Exception as e:
+        return False
+# ---------------------------------------------
+
 with st.form("formulario_antojos"):
     st.markdown("### Haz tu pedido especial:")
     
-    # st.selectbox crea un menú desplegable
     categoria = st.selectbox(
         "¿Qué necesitas hoy, mi amor?",
         ["Elige una opción...", 
@@ -22,25 +51,23 @@ with st.form("formulario_antojos"):
          "🫂 Solo un abrazo muy fuerte"]
     )
     
-    # st.text_area crea un cuadro de texto grande
     detalles = st.text_area("¿Algún detalle extra? (Ej: Quiero pizza de pepperoni, o quiero ver una peli de terror)")
     
-    # El botón que envía el formulario
     enviado = st.form_submit_button("Enviar pedido a mi novio 🚀")
     
-    # Esta es la lógica: ¿Qué pasa cuando presiona el botón?
     if enviado:
         if categoria == "Elige una opción...":
-            # Si no eligió nada, le damos un pequeño aviso
             st.warning("¡Oye! Tienes que elegir una opción primero. 😉")
         else:
-            # Si eligió algo, lanzamos un efecto de nieve (diferente a los globos) y un mensaje
-            st.snow() 
-            st.success("### ¡Pedido recibido con éxito! ✅")
-            st.write(f"**Tu pedido:** {categoria}")
+            with st.spinner("Conectando con el celular de tu novio..."):
+                exito = enviar_correo(categoria, detalles)
             
-            # Si escribió detalles, también se los mostramos
-            if detalles:
-                st.write(f"**Notas adicionales:** {detalles}")
-                
-            st.write("Tu solicitud ha sido procesada. Me pondré en marcha lo más pronto posible. ¡Te amo!")
+            if exito:
+                st.snow() 
+                st.success("### ¡Pedido enviado directamente a mi celular! ✅📱")
+                st.write(f"**Tu pedido:** {categoria}")
+                if detalles:
+                    st.write(f"**Notas:** {detalles}")
+                st.write("Me acaba de llegar la notificación. ¡Me pongo en marcha de inmediato! Te amo.")
+            else:
+                st.error("Upps, hubo un problema con la señal del servidor. Pero igual tómale un pantallazo a esto y mándamelo por WhatsApp ❤️")
