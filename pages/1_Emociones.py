@@ -4,7 +4,7 @@ import random
 # 1. Configuración básica de la página
 st.set_page_config(page_title="Para Ángela María ❤️", page_icon="🥰")
 
-# 2. Inicializar la "memoria" de la app para que no se repitan los mensajes
+# 2. Inicializar la "memoria" de los mensajes
 if 'mensajes' not in st.session_state:
     st.session_state.mensajes = {
         "Felicidad": [
@@ -59,50 +59,89 @@ if 'mensajes' not in st.session_state:
         ]
     }
 
-# 3. Encabezado de la aplicación
+# 3. Inicializar la "memoria" para la interfaz (pasos y emociones)
+if 'paso_actual' not in st.session_state:
+    st.session_state.paso_actual = 1 # Paso 1: Elegir emoción
+
+if 'emocion_elegida' not in st.session_state:
+    st.session_state.emocion_elegida = ""
+
+if 'mensaje_mostrar' not in st.session_state:
+    st.session_state.mensaje_mostrar = ""
+
+# 4. Encabezado de la aplicación (Este siempre se muestra)
 st.title("Hola, Ángela María ❤️")
 st.write("Esta pequeña app está diseñada para apoyarte en tus momentos malos, resaltar tu alegría, y demostrarte un poco de tooodo el amor que tengo por ti.")
+st.divider()
 
-st.divider() # Una línea decorativa
-
-st.subheader("¿Qué sientes hoy?")
-
-# 4. Crear columnas para mostrar los botones uno al lado del otro
-col1, col2, col3, col4, col5 = st.columns(5)
-
-emocion_seleccionada = None
-
-# Distribuimos los botones en las columnas
-with col1:
-    if st.button("💛 Felicidad"):
-        emocion_seleccionada = "Felicidad"
-with col2:
-    if st.button("❤️ Enojo"):
-        emocion_seleccionada = "Enojo"
-with col3:
-    if st.button("💚 Estrés"):
-        emocion_seleccionada = "Estrés"
-with col4:
-    if st.button("💙 Tristeza"):
-        emocion_seleccionada = "Tristeza"
-with col5:
-    if st.button("💖 Amor"):
-        emocion_seleccionada = "Amor"
-
-# 5. Lógica para mostrar y borrar el mensaje
-if emocion_seleccionada:
-    lista_actual = st.session_state.mensajes[emocion_seleccionada]
+# --- PASO 1: MOSTRAR BOTONES DE EMOCIONES ---
+if st.session_state.paso_actual == 1:
+    st.subheader("¿Qué sientes hoy?")
     
-    # Comprobamos si todavía hay mensajes en la lista
-    if len(lista_actual) > 0:
-        # Elegir mensaje aleatorio
-        mensaje_elegido = random.choice(lista_actual)
+    col1, col2, col3, col4, col5 = st.columns(5)
+    
+    # Si presiona un botón, guardamos la emoción, avanzamos al Paso 2 y recargamos
+    with col1:
+        if st.button("💛 Felicidad"):
+            st.session_state.emocion_elegida = "Felicidad"
+            st.session_state.paso_actual = 2
+            st.rerun()
+    with col2:
+        if st.button("❤️ Enojo"):
+            st.session_state.emocion_elegida = "Enojo"
+            st.session_state.paso_actual = 2
+            st.rerun()
+    with col3:
+        if st.button("💚 Estrés"):
+            st.session_state.emocion_elegida = "Estrés"
+            st.session_state.paso_actual = 2
+            st.rerun()
+    with col4:
+        if st.button("💙 Tristeza"):
+            st.session_state.emocion_elegida = "Tristeza"
+            st.session_state.paso_actual = 2
+            st.rerun()
+    with col5:
+        if st.button("💖 Amor"):
+            st.session_state.emocion_elegida = "Amor"
+            st.session_state.paso_actual = 2
+            st.rerun()
+
+# --- PASO 2: EL BOTÓN DE MISTERIO ---
+elif st.session_state.paso_actual == 2:
+    st.markdown("<h3 style='text-align: center;'>Tengo algo especial para ti... 💌</h3>", unsafe_allow_html=True)
+    
+    # st.button() es muy simple, lo ponemos grande y centrado
+    if st.button("✨ Oprime aquí para ver tu mensaje ✨", use_container_width=True):
         
-        # Eliminar el mensaje de la lista almacenada en session_state
-        st.session_state.mensajes[emocion_seleccionada].remove(mensaje_elegido)
+        # Aquí es donde ocurre la magia matemática antes de mostrar el mensaje
+        emocion = st.session_state.emocion_elegida
+        lista_actual = st.session_state.mensajes[emocion]
         
-        # Mostrar el mensaje con un estilo bonito
-        st.success(f"### {mensaje_elegido}")
+        if len(lista_actual) > 0:
+            mensaje_elegido = random.choice(lista_actual)
+            st.session_state.mensajes[emocion].remove(mensaje_elegido)
+            st.session_state.mensaje_mostrar = mensaje_elegido
+        else:
+            st.session_state.mensaje_mostrar = "VACIO"
+            
+        # Avanzamos al Paso 3 y recargamos
+        st.session_state.paso_actual = 3
+        st.balloons() # ¡Agregamos globos porque sí!
+        st.rerun()
+
+# --- PASO 3: MOSTRAR EL MENSAJE FINAL ---
+elif st.session_state.paso_actual == 3:
+    
+    if st.session_state.mensaje_mostrar == "VACIO":
+        st.info(f"Ya leíste todos los mensajitos de {st.session_state.emocion_elegida}. ¡Te amo infinito! 🥰")
     else:
-        # Qué pasa si ya se acabaron los mensajes de esa categoría
-        st.info(f"Ya leíste todos los mensajitos de {emocion_seleccionada}. ¡Te amo infinito! 🥰")
+        st.success(f"## {st.session_state.mensaje_mostrar}")
+    
+    st.write("---")
+    # Botón para reiniciar todo y volver a empezar
+    if st.button("⬅️ Elegir otra emoción"):
+        st.session_state.paso_actual = 1
+        st.session_state.emocion_elegida = ""
+        st.session_state.mensaje_mostrar = ""
+        st.rerun()
