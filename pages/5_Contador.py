@@ -45,13 +45,34 @@ col6.metric("Segundos", segundos)
 st.caption("*(Actualiza la página en cualquier momento para ver cómo los segundos siguen subiendo)*")
 st.divider()
 
-# --- BONO: Cuenta regresiva para el próximo aniversario ---
-# Lógica para saber si el aniversario de este año ya pasó o apenas viene
+# --- BONO: Cuentas regresivas ---
+st.markdown("### Próximos destinos:")
+
+# 1. Lógica para el próximo CUMPLEMÉS (Los 22 de cada mes)
+if ahora.day < fecha_inicio.day:
+    # Si aún no es 22, el próximo cumplemés es este mismo mes
+    mes_proximo = ahora.month
+    ano_proximo = ahora.year
+else:
+    # Si ya pasamos del 22, el próximo cumplemés es el mes siguiente
+    if ahora.month == 12:
+        # Si estamos en diciembre, saltamos a enero del otro año
+        mes_proximo = 1
+        ano_proximo = ahora.year + 1
+    else:
+        mes_proximo = ahora.month + 1
+        ano_proximo = ahora.year
+
+proximo_mesversario = datetime(ano_proximo, mes_proximo, fecha_inicio.day)
+faltan_meses = proximo_mesversario - ahora
+
+# 2. Lógica para el próximo ANIVERSARIO
 si_ya_paso_este_ano = (ahora.month > fecha_inicio.month) or (ahora.month == fecha_inicio.month and ahora.day >= fecha_inicio.day)
 ano_proximo_aniversario = ahora.year + 1 if si_ya_paso_este_ano else ahora.year
 
 proximo_aniversario = datetime(ano_proximo_aniversario, fecha_inicio.month, fecha_inicio.day)
-faltan = proximo_aniversario - ahora
+faltan_anios = proximo_aniversario - ahora
 
-st.markdown("### Próximo destino:")
-st.info(f"Faltan exactamente **{faltan.days} días** para nuestro próximo aniversario. ¡Y los que nos faltan! 🎉")
+# Mostramos los resultados en dos tarjetas de colores diferentes para que se vea hermoso
+st.info(f"🗓️ Faltan exactamente **{faltan_meses.days} días** para nuestro próximo **cumplemés** (el 22). ¡A celebrar!")
+st.success(f"🎉 Y faltan **{faltan_anios.days} días** para nuestro próximo **aniversario**. ¡Y los que nos faltan!")
