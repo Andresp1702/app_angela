@@ -40,15 +40,34 @@ def enviar_correo(categoria, detalles):
 with st.form("formulario_antojos"):
     st.markdown("### Haz tu pedido especial:")
     
-    categoria = st.selectbox(
+categoria = st.selectbox(
         "¿Qué necesitas hoy, mi amor?",
-        ["Elige una opción...", 
-         "🍕 Antojo de comida chatarra", 
-         "💆‍♀️ Vale por un masajito", 
-         "🍦 Salida por un helado", 
-         "🎬 Tarde de películas y arrunchis", 
-         "👂 Alguien que me escuche quejarme de mi día",
-         "🫂 Solo un abrazo muy fuerte"]
+        [
+            "Elige una opción...", 
+            
+            # --- Antojos y Tiempo Juntos ---
+            "🍕 Antojo de comida rica", 
+            "🍦 Salida por un helado", 
+            "🎬 Tarde de películas y arrunchis", 
+            "💆‍♀️ Vale por un masajito relajante",
+            "☕ Charla con cafécito y música suave",
+            "🕹️ Noche de juegos"
+            
+            # --- Cuidado Emocional y Comunicación ---
+            "🫂 Solo un abrazo muy fuerte (en silencio)",
+            "👂 Alguien que me escuche quejarme (solo escuchar, sin dar soluciones)",
+            "🧠 Necesito tu apoyo y consejo con una situación",
+            "🗣️ Necesito que tengamos una charla profunda y sincera",
+            "🥺 Me siento un poco frágil hoy, necesito validación",
+            "🧘‍♀️ Necesito un ratito de espacio a solas para recargar energía",
+            "🆘 Ayúdame con mis tareas/deberes de hoy, estoy saturada",
+            
+            # --- Vida Íntima y Conexión ---
+            "❤️ Ganas de hacer el amor",
+            "🔥Ganas de culiar y comernos hasta el alma",
+            "🚿 Bañarnos juntos para quitarnos el estrés del día",
+            "✨ Noche donde probemos algo nuevo en el sexo "
+        ]
     )
     
     detalles = st.text_area("¿Algún detalle extra? (Ej: Quiero pizza de pepperoni, o quiero ver una peli de terror)")
