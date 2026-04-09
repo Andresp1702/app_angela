@@ -40,7 +40,7 @@ def enviar_correo(categoria, detalles):
 with st.form("formulario_antojos"):
     st.markdown("### Haz tu pedido especial:")
     
-categoria = st.selectbox(
+    categoria = st.selectbox(
         "¿Qué necesitas hoy, mi amor?",
         [
             "Elige una opción...", 
@@ -64,9 +64,9 @@ categoria = st.selectbox(
             
             # --- Vida Íntima y Conexión ---
             "❤️ Ganas de hacer el amor",
-            "🔥Ganas de culiar y comernos hasta el alma",
+            "🔥 Ganas de culiar y comernos hasta el alma",
             "🚿 Bañarnos juntos para quitarnos el estrés del día",
-            "✨ Noche donde probemos algo nuevo en el sexo "
+            "✨ Noche donde probemos algo nuevo en el sexo"
         ]
     )
     
