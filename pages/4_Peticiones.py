@@ -51,7 +51,7 @@ categoria = st.selectbox(
             "🎬 Tarde de películas y arrunchis", 
             "💆‍♀️ Vale por un masajito relajante",
             "☕ Charla con cafécito y música suave",
-            "🕹️ Noche de juegos"
+            "🕹️ Noche de juegos",
             
             # --- Cuidado Emocional y Comunicación ---
             "🫂 Solo un abrazo muy fuerte (en silencio)",
